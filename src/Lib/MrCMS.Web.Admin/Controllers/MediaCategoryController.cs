@@ -163,8 +163,8 @@ namespace MrCMS.Web.Admin.Controllers
             [ModelBinder(typeof(DeleteFilesModelBinder))]
             DeleteFilesAndFoldersModel model)
         {
-            await _fileAdminService.DeleteFilesSoft(model.Files);
-            await _fileAdminService.DeleteFoldersSoft(model.Folders);
+            await _fileAdminService.DeleteFilesHard(model.Files);
+            await _fileAdminService.DeleteFoldersHard(model.Folders);
 
             return Json(new FormActionResult { success = true, message = "" });
         }

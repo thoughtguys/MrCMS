@@ -28,6 +28,7 @@ namespace MrCMS.Web.Admin.Services
         Task DeleteFilesSoft(IEnumerable<int> fileIds);
         Task DeleteFilesHard(IEnumerable<int> fileIds);
         Task DeleteFoldersSoft(IEnumerable<int> folderIds);
+        Task DeleteFoldersHard(IEnumerable<int> folderIds);
         Task<MediaCategory> GetCategory(MediaCategorySearchModel searchModel);
         List<SelectListItem> GetSortByOptions(MediaCategorySearchModel searchModel);
         Task<MediaFile> GetFile(int id);

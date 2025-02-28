@@ -225,6 +225,29 @@ namespace MrCMS.Web.Admin.Services
                 });
             }
         }
+        
+        public async Task DeleteFoldersHard(IEnumerable<int> folderIds)
+        {
+            if (folderIds != null)
+            {
+                var ids = folderIds.ToList();
+                var folders = await _session.Query<MediaCategory>().Where(x => ids.Contains(x.Id)).ToListAsync();
+                var foldersRecursive = await GetFoldersRecursive(folders);
+                await _mediaCategoryRepository.TransactAsync(async repository =>
+                {
+                    foreach (var f in foldersRecursive)
+                    {
+                        var folder = await repository.Get(f.Id);
+                        var files = folder.Files.ToList();
+                        foreach (var file in files)
+                            await _fileService.DeleteFile(file.Id);
+
+                        await _fileService.RemoveFolder(folder);
+                        await repository.Delete(folder);
+                    }
+                });
+            }
+        }
 
         public async Task<MediaCategory> GetCategory(MediaCategorySearchModel searchModel)
         {
