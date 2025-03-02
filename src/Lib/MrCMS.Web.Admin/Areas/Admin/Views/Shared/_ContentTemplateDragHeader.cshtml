@@ -11,21 +11,32 @@
             tokenProviders.Add(provider);
         }
     }
+    
+    var groupedProviders = tokenProviders
+        .GroupBy(provider => provider.Category)
+        .OrderBy(group => group.Key == "General" ? 0 : 1)  // Sort General last
+        .ThenBy(group => group.Key)  // Then sort other categories alphabetically
+        .ToDictionary(group => group.Key, group => group.ToList());
 }
 <div class="alert alert-info mt-3" role="alert">
     <strong>(@await Html.Resource("Heads up"))</strong> @await Html.Resource("You can drag and drop the tags below into the editor.")
 </div>
-<ul class="mb-0 list-unstyled" content-template-drag>
-    @foreach (var tokenProvider in tokenProviders)
-    {
-        <li class="btn btn-default btn-sm mr-2 mb-2" draggable="true" data-text='@tokenProvider.HtmlPattern'>
-            <i class="@tokenProvider.Icon"></i> @tokenProvider.DisplayName
-        </li>
-    }
-    <li class="btn btn-default btn-sm mr-2 mb-2" draggable="true" data-text='[html name="html1"][html-end]'>
-        <i class="fa fa-code"></i> Html
-    </li>
-    <li class="btn btn-default btn-sm mr-2 mb-2" draggable="true" data-text='[array name="array1"][array-end]'>
-        <i class="fa fa-th-list"></i> Array
-    </li>
-</ul>
+
+@foreach (var group in groupedProviders)
+{
+    <div class="d-inline-block p-2 border mr-2">
+        <h5>@group.Key</h5>
+        <ul class="mb-0 list-unstyled" content-template-drag>
+            @foreach (var tokenProvider in group.Value.OrderBy(f=>f.DisplayName))
+            {
+            <li class="btn btn-default btn-sm mr-2 mb-2" draggable="true" data-text='@tokenProvider.HtmlPattern'
+                @if (!String.IsNullOrWhiteSpace(tokenProvider.Guide))
+                {
+                @:data-toggle="popover" data-html="true" data-content="@Html.Raw(tokenProvider.Guide)"
+                }>
+                <i class="@tokenProvider.Icon"></i> @tokenProvider.DisplayName
+            </li>
+            }
+        </ul>
+    </div>
+}

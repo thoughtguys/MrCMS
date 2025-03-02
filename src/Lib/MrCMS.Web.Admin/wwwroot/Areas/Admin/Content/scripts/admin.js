@@ -41,7 +41,7 @@ import {setupWebpageSelect2} from "./webpage-search";
 import {setupContentAdmin} from "./content-admin";
 import {initIFrameAutoHeight} from "./iframe-auto-height";
 import {SetupCronParser} from './cron-parser.js';
-import {initiateContentTemplate} from "./content-template";
+import {initiateContentTemplate, initContentTemplateTokens} from "./content-template";
 import {initializeHtmlEditor} from "./html-editor";
 import {initializeCssEditor} from "./css-editor";
 import {initializeJavaScriptEditor} from "./js-editor";
@@ -92,6 +92,7 @@ $(() => {
     setupWebpageSelect2();
     SetupCronParser();
     initiateContentTemplate();
+    initContentTemplateTokens();
     initializeHtmlEditor();
     initializeCssEditor();
     initializeJavaScriptEditor();

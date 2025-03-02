@@ -1,23 +1,23 @@
 .content-admin {
   .main {
     .right-nav {
-      &:not(.expand){
-        .content-template-container{
-          & > .row{
-            & > *{
+      &:not(.expand) {
+        [data-content-template-container] {
+          & > .row {
+            & > * {
               max-width: 100% !important;
               flex: 0 0 100% !important;
             }
           }
-          .content-template-array-container,.content-template-html-container{
-            .card{
-              & > .card-body{
-                padding: .5rem !important;
-                & > .row{
-                  & > *{
-                    max-width: 100% !important;
-                    flex: 0 0 100% !important;
-                  }
+
+          .card {
+            & .card-body {
+              padding: .5rem !important;
+
+              .row {
+                & > * {
+                  max-width: 100% !important;
+                  flex: 0 0 100% !important;
                 }
               }
             }
